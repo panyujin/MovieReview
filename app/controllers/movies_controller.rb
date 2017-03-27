@@ -27,11 +27,12 @@ class MoviesController < ApplicationController
 
    def update
      @movie = Movie.find(params[:id])
-
-     @movie.update(movie_params)
-
+     if @movie.update(movie_params)
      redirect_to movies_path, notice: "编辑成功"
+   else
+     render :edit
    end
+ end
 
    def destroy
      @movie = Movie.find(params[:id])
