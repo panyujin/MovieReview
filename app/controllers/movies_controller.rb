@@ -30,6 +30,13 @@ class MoviesController < ApplicationController
      redirect_to movies_path, notice: "编辑成功"
    end
 
+   def destroy
+     @movie = Movie.find(params[:id])
+     @movie.destroy
+     flash[:alert] = "成功删除电影"
+     redirect_to movies_path
+   end
+
    private
 
    def movie_params
