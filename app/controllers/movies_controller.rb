@@ -42,6 +42,32 @@ class MoviesController < ApplicationController
      redirect_to movies_path
    end
 
+   def join
+     @movie = Movie.find(params[:id])
+
+     if !current_user.is_member_of?(@movie)
+       current_user.join!(@movie)
+       flash[:notice] = "你已经收藏成功!"
+     else
+       flash[:warning] = "你已经收藏过了!"
+     end
+
+     redirect_to movie_path(@movie)
+   end
+
+   def quit
+     @movie = Movie.find(params[:id])
+
+     if current_user.is_member_of?(@movie)
+       current_user.quit!(@movie)
+       flash[:alert] = "你已经取消收藏!"
+     else
+       flash[:warning] = "你没有收藏,怎么取消 XD"
+     end
+
+     redirect_to movie_path(@movie)
+   end
+
    private
 
    def find_movie_and_check_permission
